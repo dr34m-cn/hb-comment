@@ -2,7 +2,7 @@
 
 ## 本插件依赖uView，如果环境没有uView，请把其中用到的地方替换成普通组件，包括头像，图标，展开等。
 
-<img src="demo-img/0272be40-e459-11eb-ba9f-f12f70c7a134_0.jpg" alt="评论列表" style="width:300px;height:auto;" /><img src="demo-img/0272be40-e459-11eb-ba9f-f12f70c7a134_1.jpg" alt="发布评论" style="width:300px;height:auto;" />
+<img src="demo-img/0272be40-e459-11eb-ba9f-f12f70c7a134_0.jpg" alt="评论列表" width="300" /><img src="demo-img/0272be40-e459-11eb-ba9f-f12f70c7a134_1.jpg" alt="发布评论" width="300" />
 
 直接使用
 
