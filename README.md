@@ -2,6 +2,10 @@
 
 ## 本插件依赖uView，如果环境没有uView，请把其中用到的地方替换成普通组件，包括头像，图标，展开等。
 
+![评论列表](demo-img/0272be40-e459-11eb-ba9f-f12f70c7a134_0.jpg)
+
+![发布评论](demo-img/0272be40-e459-11eb-ba9f-f12f70c7a134_1.jpg)
+
 直接使用
 
 ```html
@@ -259,5 +263,4 @@ def get_article_comment(articleId, userId):
     }
     return CS.ResultMap(result)
 ```
-
 
