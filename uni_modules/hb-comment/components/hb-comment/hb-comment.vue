@@ -2,7 +2,8 @@
 	<view class="hb-comment">
 		<!-- 阅读数-start -->
 		<view>
-			<u-icon name="eye" color="#999999" size="28"></u-icon>
+			<img style="width: 14px; height: 14px;"
+				src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAA0tJREFUWEftVk2IHUUQ/qp311NOksRT8JBDkARCfrxEDyLK+pe/DQkmJpBlZ7ofDwQ15iRocjYSSWAzU/OWd4hCMJiQH43xBz2YXCRivIgHQQ8SRPGUU/btfNLPnuU5O7OZlWz2kobh8aq/qvq6qrq6BEu8ZIn94wGBBUWg3W6v6vV62wFsILlGRNYA6AH4AcCPJH8mebPT6dxomtpGBJxz4wD2kny2oWHN81ybEJmXQKvVWpfn+VsAXi45vgPgj/D5rUfC91AJ54m83el0PLZy1RKw1u4GkAB4OGj+LSJXRORMkiSXq6xFUfSUiHi93SKyImB+BeBU9fMqnUoCcRy/IiIfFAoicp7kYVX9pUkKrLWrReRdkjsLvNfPsuxYWX8OAWvtOwCODACPqOrRJo7LmApbe1T17CDuPwSccy2SpwZYj2VZdr7K+fj4+IqRkZFVIjJD8ndV/asKdzcSswTiON4iIlcBLPOGROTFNE0/rTHqQ3motHdWVffU1YYx5utizxjzXJIk3te/nbDdbi/r9XpesCWAasNureV86VDVurqKRUSD7k8zMzPPT01N/dYHW2uPA3gtnDxL09TWnPwjX+F+j+Q1EfkCwC0ALwHYGnTeU9U3q/Sdc0oyDnvnVHWXOOdeIPlJEN4E8ExVPq21ywH8GXCXVHXboJM4jr8VkSe8bHp6emW32y2ws7Bg40sA68NhD3gCXZIHA2q07r4659aT9C3XL3+vi3D2BaVi26Sq31dFIY7jgyLSDXs3xFp7rci9MebJJEn8/zlrMQj00+ic20/ydAjJhTRNd9Tk/56ngOT2ogg/BjAWHB9X1TfuQxG+r6qv9wlMTEw8OjQ0dAXAY8HxYl/D68PDw6OTk5O3Z+9sq9UazfP8s+Lki9iIbpMczbLsej/tg6F2zr1K8kQhI3n/WnHhdDEfI5L7syz7cPDQlW2zHIl78RwDqCzu2oEkiqKnjTFfDbD9vwOJb9vHsiw7XHWz5h3JoijaZIzxz/PjJeVGIxnJb4wxJ9M0PVflfE4R1oGcc2Mk9wHYVYcpyS8BuKiqnbvhG03FhRHn3GaSG0muM8as9b8AjB/HRcR/35G8oKr+hWy0FkSgkcUFgh4QWPII/ANy0cUvD9WbkgAAAABJRU5ErkJggg==" />
 			<span class="top-read">{{commentData.readNumer}}</span>
 		</view>
 		<!-- 阅读数-end -->
@@ -19,7 +20,7 @@
 			<view class="comment-num">
 				<view>共 {{commentData.commentSize}} 条评论</view>
 				<view class="add-btn">
-					<u-button type="primary" size="mini" @click="commentInput">发表评论</u-button>
+					<button type="primary" size="mini" @click="commentInput">发表评论</button>
 				</view>
 			</view>
 			<!-- 评论主体-顶部数量及发表评论按钮-end -->
@@ -27,7 +28,7 @@
 			<view class="comment-box" v-for="(item, index) in commentData.comment">
 				<view class="comment-box-item">
 					<view>
-						<u-avatar :src="item.avatarUrl" mode="circle" size="mini"></u-avatar>
+						<image :src="item.avatarUrl || emptyAvatar" mode="aspectFill" class="avatar"></image>
 					</view>
 					<view class="comment-main">
 						<!-- 父评论体-start -->
@@ -40,16 +41,21 @@
 								<view class="nick-name">{{item.nickName}}</view>
 							</view>
 							<view class="zan-box" @click="like(item.id)">
-								<span
-									:class="item.hasLike ? 'isLike' : 'notLike'">{{item.likeNum == 0 ? '抢首赞' : item.likeNum}}</span>
-								<u-icon :name="item.hasLike?'thumb-up-fill':'thumb-up'"
-									:color="item.hasLike?'#2d8cf0':'#999999'" size="28"></u-icon>
+								<span :class="item.hasLike ? 'isLike' : 'notLike'">{{item.likeNum == 0 ? '抢首赞' : item.likeNum}}</span>
+								<img style="width: 14px; height: 14px;" v-if="!item.hasLike"
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAApVJREFUWEfFlz9oFEEUxr93SWEhFkIaBUljo4WgATEaiI0GwVLBQg2EzLd3hSBqLI2lRgWLY+ftSSQgggoWNv5pImLUwjQBg1goqCCIIBqwueSeTLg7Ln9Mcmdub7vdnZnvN9+8fe+toMWXtFgfDQGMjo52zM7OHgMwIyLTg4ODk41upG4A7/0OEbkPYGdFVEQuOOeuNQJRN4CqBvGw+3dm9kZEBsrCPSRf1gvRCIAFETPrjqLodZIkY2Z2SkQmnHMHUgMgOQ8fx3FvJpMZB/CDZEfqACEgi8XidwA/SW5uKkCN2AzJTYscmCTZ1VQA7/2AiNwSkefOuYNBLEmSnJnlATwgebypAKr6CMBRANdJng9i3vu8iORE5Mrc3NyTlQDM7HMul/tYO2bNX0GhUDhRKpXumtlvAPuiKJouOzBuZr117HyBU6sCqOpeAH0AhssiwyQvVwTjOO5va2s7vRaAGtCrJC+GOVUAVb1UTjDVDLd4URHJOuf8WsSWG5MkSbeZTYR3lc+4CpAkyUpWht3fI/m+UfEwL5/Pb2xvb59ZFkBV5zNchazsSBBeYPn/ABQKhZ5SqfQCwBTJXYuPoOkAqnoGwE0Ad0ieTB3Ae39bRPoBDJEcSR1AVd8C2CMifc65p6kCmJkkSfIHwAYAW0h+SxVAVXcDmDSzL1EUbasEc20eaGoQVuoIgMckj6QOoKo3AJwFMEJyqBUAIegOAegnOdYKgK8AtmYyma7aLjqVGPDebxeRDwB+AeggWUzVAVV1ABTAK5L7l+0HVPUTgM7Q7VQGhPJZe99oHagpw4dJPvsXQPixONeoyErzRGTKzB7W9hFLjiA8iOO4M7iw3hDZbLbq6pIeY73F6l1v1Zas3gXrHf8XhhNvMGSmtPYAAAAASUVORK5CYII=" />
+								<img style="width: 14px; height: 14px;" v-else
+									src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAfVJREFUWEfFl79LHEEUx7/vclr4g51TLFQQW9FNDFhFBDvjtcF0gXSp5eYuWJlUAW9NIP9BIFUEOxFtTKF2FrezKFgkkEBS3h4SAtHbJ6vu5W5d1F3cm20WZt+b7+e9mTfzlqD5Ic36SATw+OPJQP2ft+ABJwQ+VFIcJA0kEYBpVfcAehKIMqHoFISVBCI2wOS76mi9g76HxTLwZiqybzcuRGwAc7WWB/NGWIhBu440ZlIHmFitLRPzm+tC9EtJY1gjAP9VMtelEQC2kuJR6gCm5X4BsBAWImDdluJZqgBjH/4MZr3TYzB6IoRWmHnzJgDK0g+1KL4128SqgnD9x432yn5NSfE88L0VYPx9rS/jYR6EJTCPJxQNu60oKV77gw2Ai/Ly1/ZKRElx8c20XL4n0ZZpgvkbAKbl7gCYDax0ALREmjJAo2SbM9A+AKLPqmC8aNkD4bVOMwPEKNlFUdYGkAE9rUhjSxvA2YOOoaPF7t+6AH4qKUauHURt3AObSoq8NgAGyo4UJW0ABH5py9wnbQAAppq76HYfRLXOXmPg4BWdasoA7yuZm47sB0zL9Vvt0TQvI/bqc06pfzsS4KHlWgwUUgKwmWjdKRhvI1q5/0P+T8dZ9jILTjH31X9PlKuNKzppXxDMFeV/a0eUVPSuftoBzgHKR/ohZwAugwAAAABJRU5ErkJggg==" />
 							</view>
 						</view>
 						<view class="comment-main-content">
-							<u-read-more :toggle="true" show-height="300" text-indent="0" close-text="展开">
-								<rich-text :nodes="item.content"></rich-text>
-							</u-read-more>
+							{{item.content.length > 60 ? item.content.slice(0, 59) : item.content}}
+							<span v-if="item.content.length > 60">
+								{{item.hasShowMore ? item.content.slice(59) : '...'}}
+								<span class="foot-btn" @click="showMore(item.id)">
+									{{item.hasShowMore ? '收起' : '展开'}}
+								</span>
+							</span>
 						</view>
 						<view class="comment-main-foot">
 							<view class="foot-time">{{item.createTime}}</view>
@@ -61,22 +67,28 @@
 						<view class="comment-sub-box">
 							<view class="comment-sub-item" v-for="each in item.children">
 								<view>
-									<u-avatar :src="each.avatarUrl" mode="circle" size="mini"></u-avatar>
+									<image :src="each.avatarUrl || emptyAvatar" mode="aspectFill" class="avatar">
+									</image>
 								</view>
 								<view class="comment-main">
 									<view class="sub-comment-main-top">
 										<view class="nick-name">{{each.nickName}}</view>
 										<view class="zan-box" @click="like(each.id)">
-											<span
-												:class="each.hasLike ? 'isLike' : 'notLike'">{{each.likeNum == 0 ? '抢首赞' : each.likeNum}}</span>
-											<u-icon :name="each.hasLike?'thumb-up-fill':'thumb-up'"
-												:color="each.hasLike?'#2d8cf0':'#999999'" size="28"></u-icon>
+											<span :class="each.hasLike ? 'isLike' : 'notLike'">{{each.likeNum == 0 ? '抢首赞' : each.likeNum}}</span>
+											<img style="width: 14px; height: 14px;" v-if="!each.hasLike"
+												src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAApVJREFUWEfFlz9oFEEUxr93SWEhFkIaBUljo4WgATEaiI0GwVLBQg2EzLd3hSBqLI2lRgWLY+ftSSQgggoWNv5pImLUwjQBg1goqCCIIBqwueSeTLg7Ln9Mcmdub7vdnZnvN9+8fe+toMWXtFgfDQGMjo52zM7OHgMwIyLTg4ODk41upG4A7/0OEbkPYGdFVEQuOOeuNQJRN4CqBvGw+3dm9kZEBsrCPSRf1gvRCIAFETPrjqLodZIkY2Z2SkQmnHMHUgMgOQ8fx3FvJpMZB/CDZEfqACEgi8XidwA/SW5uKkCN2AzJTYscmCTZ1VQA7/2AiNwSkefOuYNBLEmSnJnlATwgebypAKr6CMBRANdJng9i3vu8iORE5Mrc3NyTlQDM7HMul/tYO2bNX0GhUDhRKpXumtlvAPuiKJouOzBuZr117HyBU6sCqOpeAH0AhssiwyQvVwTjOO5va2s7vRaAGtCrJC+GOVUAVb1UTjDVDLd4URHJOuf8WsSWG5MkSbeZTYR3lc+4CpAkyUpWht3fI/m+UfEwL5/Pb2xvb59ZFkBV5zNchazsSBBeYPn/ABQKhZ5SqfQCwBTJXYuPoOkAqnoGwE0Ad0ieTB3Ae39bRPoBDJEcSR1AVd8C2CMifc65p6kCmJkkSfIHwAYAW0h+SxVAVXcDmDSzL1EUbasEc20eaGoQVuoIgMckj6QOoKo3AJwFMEJyqBUAIegOAegnOdYKgK8AtmYyma7aLjqVGPDebxeRDwB+AeggWUzVAVV1ABTAK5L7l+0HVPUTgM7Q7VQGhPJZe99oHagpw4dJPvsXQPixONeoyErzRGTKzB7W9hFLjiA8iOO4M7iw3hDZbLbq6pIeY73F6l1v1Zas3gXrHf8XhhNvMGSmtPYAAAAASUVORK5CYII=" />
+											<img style="width: 14px; height: 14px;" v-else
+												src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAfVJREFUWEfFl79LHEEUx7/vclr4g51TLFQQW9FNDFhFBDvjtcF0gXSp5eYuWJlUAW9NIP9BIFUEOxFtTKF2FrezKFgkkEBS3h4SAtHbJ6vu5W5d1F3cm20WZt+b7+e9mTfzlqD5Ic36SATw+OPJQP2ft+ABJwQ+VFIcJA0kEYBpVfcAehKIMqHoFISVBCI2wOS76mi9g76HxTLwZiqybzcuRGwAc7WWB/NGWIhBu440ZlIHmFitLRPzm+tC9EtJY1gjAP9VMtelEQC2kuJR6gCm5X4BsBAWImDdluJZqgBjH/4MZr3TYzB6IoRWmHnzJgDK0g+1KL4128SqgnD9x432yn5NSfE88L0VYPx9rS/jYR6EJTCPJxQNu60oKV77gw2Ai/Ly1/ZKRElx8c20XL4n0ZZpgvkbAKbl7gCYDax0ALREmjJAo2SbM9A+AKLPqmC8aNkD4bVOMwPEKNlFUdYGkAE9rUhjSxvA2YOOoaPF7t+6AH4qKUauHURt3AObSoq8NgAGyo4UJW0ABH5py9wnbQAAppq76HYfRLXOXmPg4BWdasoA7yuZm47sB0zL9Vvt0TQvI/bqc06pfzsS4KHlWgwUUgKwmWjdKRhvI1q5/0P+T8dZ9jILTjH31X9PlKuNKzppXxDMFeV/a0eUVPSuftoBzgHKR/ohZwAugwAAAABJRU5ErkJggg==" />
 										</view>
 									</view>
 									<view class="comment-main-content">
-										<u-read-more :toggle="true" show-height="300" text-indent="0" close-text="展开">
-											<rich-text :nodes="each.content"></rich-text>
-										</u-read-more>
+										{{each.content.length > 60 ? each.content.slice(0, 59) : each.content}}
+										<span v-if="each.content.length > 60">
+											{{each.hasShowMore ? each.content.slice(59) : '...'}}
+											<span class="foot-btn" @click="showMore(each.id)">
+												{{each.hasShowMore ? '收起' : '展开'}}
+											</span>
+										</span>
 									</view>
 									<view class="comment-main-foot">
 										<view class="foot-time">{{each.createTime}}</view>
@@ -107,15 +119,17 @@
 				<view class="comment-submit">
 					<view class="btn-click cancel" @click="closeInput">取消</view>
 					<view>
-						<u-tag :text="'回复在 '+ pUser +' 的评论下'" type="info" closeable :show="showTag" @close="tagClose" />
+						<view class="replayTag" v-show="showTag">
+							<view>回复在 {{pUser}} 的评论下</view>
+							<view @click="tagClose" class="replyTagClose">×</view>
+						</view>
 					</view>
 					<view>
 						<view class="btn-click" @click="add">发布</view>
 					</view>
 				</view>
-				<textarea class="textarea" v-model="commentReq.content" :placeholder="placeholder"
-					:adjust-position="false" :show-confirm-bar="false" @blur="blur" @focus="focusOn" :focus="focus"
-					maxlength="800"></textarea>
+				<textarea class="textarea" v-model="commentReq.content" :placeholder="placeholder" :adjust-position="false" :show-confirm-bar="false"
+					@blur="blur" @focus="focusOn" :focus="focus" maxlength="800"></textarea>
 			</view>
 		</view>
 		<!-- 新增评论-end -->
@@ -142,14 +156,16 @@
 		watch: {
 			cmData: {
 				handler: function(newVal, oldVal) {
-					this.commentData = newVal;
+					this.init(newVal);
 				},
 				immediate: true
 			}
 		},
 		data() {
 			return {
+				"emptyAvatar": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAABF5JREFUWEfFl11oHFUUx//nbmKwxdJ9qFL7YPEhRJC2gljjF60WG0WsoNkWfSnZ7Jy7FVPF0AoKpmBFqyIG3Jk7G1iIQXHbBz+KbbGtRfBbMe2LseKjiVDoiqIhwZ0jV3fb3cnM7kQCuU+7M+ec/+9+nHPPEJZ50DLrY1EApVJp9fz8/BYRuZ2INgDYWJvAWRE5R0RnZmZmPh4ZGZlPOrFEAMVi8e4gCPYSUZ+IXGGFgiCYIaJpKyQi1yql1orIFgAXARxRSvm5XO67diBtAYwxRQCDAE4RUUkpdWxwcNCKLBiu665TSj0kIpqIbgTgMzO3gmgJYIz5CMB9AIaZ+bXGQMVi8RoRuZeI/lZKHc1ms3/U34+Pj6+cnZ3dC+AggGPMfH8cRCyAMUZqThlmPlwPUCgU0qlUyq7Kww1BrbjHzPsahYwx/QDK9hkzR2pFPjTGnAWwIexkjOkRkRIR3Rozo5Miskdr/VMIxE7mHDPXD+2l1wsA6nseBMHmfD7/dSjQOwB2tTlYC/bddd1blFJfARhj5lyjfxNA7bSfitpz3/d3iYgFaDuUUjeHM8AY8zSAV5VS9+RyudP1IE0Axpj3Aaxk5m1hFc/zPiWiO9uq/2dwiJn3h22NMScB/MnMOxYAjI6Orurq6rpgU0hrXYpw/hFAd0KAD5n5wbCt7/t7ROT1ubm5NUNDQ7/b95dWwHXd7Uqp452dnVcPDAxciACwDlclAbAFynGcdRGr2EtEnwdB0JfP5080ARhjDhLRbY7jbI0SMcZUAKxOAgDgN2ZOx8SxGfEiMz/bBOD7/lgQBCu01o/GOH4PYFNCgElmvinK1vf9X2xxchzHVtfLW2CMOQpgipmHYwBeBtBUaOJgRKSgtX48Js63AH5l5geaADzPe1cpddFxnHyM42YAXyZYAXt+epn557iVFJHzWuudYYDnlFJ9juPcESfi+35JRHa3gdjPzIfibIwxNtPe0Fq/EAZ4hIhcZl4T5+y67nql1CcA1kfZENFnrSZQ6ycqItKvtT4SBthIRJMdHR092WzW5nzk8H1/WEReiQHY4TjOB3G+nuf9qyEim7TW9r65fAjL5fKVlUrlPICXmPnNFquwWym1oFBZ+yAItubz+TMtAJ4gon3pdLo7k8nMNgHYP7ZeE5EWkbuYeaYx0NjY2HXValUDeApAV4zIJIADzPxe+H2hULg+lUp9U6sBl3qLprugXC6nKpXKF0R02nGcZ2wQ3/e3ichOEckQ0aoEWQDbsgF4a3p6eqLeH3qeN0FE3el0ujeTyVTrcaKuY1uIjIg8CaCfiLYnEW1hY4WPi8gEgMeY+e1G27iGxHYxtptZynGYmTPhgK1asqWEiBRfcAjDdMaYpYCIFW8LUMuM54nIsb3/YvbDXskiYtuzA6382n4X1CDWAnCSgNSFa98ETakcWbwWMytjzAoAPUEQ3JBKpXrs75r/VLVanVJK/VC7Uf9KGjfRCiQN9n/slh3gHz9i4jC+FVL5AAAAAElFTkSuQmCC",
 				"commentData": null,
+				"placeholder": "请输入评论",
 				"commentReq": {
 					"pId": null, // 评论父id
 					"content": null // 评论内容
@@ -167,6 +183,16 @@
 			})
 		},
 		methods: {
+			// 初始化评论
+			init(cmData) {
+				// for (var i in cmData.comment) {
+				// 	cmData.comment[i].hasShowMore = false;
+				// 	for (var j in cmData.comment[i].children) {
+				// 		cmData.comment[i].children[j].hasShowMore = false;
+				// 	}
+				// }
+				this.commentData = cmData;
+			},
 			// 没用的方法，但不要删
 			stopPrevent() {},
 			// 回复评论
@@ -248,6 +274,24 @@
 					if (this.commentData.comment[i].id == commentId) {
 						this.commentData.comment.splice(Number(i), 1);
 						return
+					}
+				}
+			},
+			// 展开评论
+			showMore(commentId) {
+				for (var i in this.commentData.comment) {
+					if (this.commentData.comment[i].id == commentId) {
+						this.commentData.comment[i].hasShowMore = !this.commentData.comment[i].hasShowMore;
+						this.$forceUpdate();
+						return
+					}
+					for (var j in this.commentData.comment[i].children) {
+						if (this.commentData.comment[i].children[j].id == commentId) {
+							this.commentData.comment[i].children[j].hasShowMore = !this.commentData.comment[i].children[j]
+								.hasShowMore;
+							this.$forceUpdate();
+							return
+						}
 					}
 				}
 			},
@@ -343,6 +387,12 @@
 		justify-content: space-between;
 	}
 
+	.avatar {
+		width: 70rpx;
+		height: 70rpx;
+		border-radius: 50%;
+	}
+
 	.nick-name-box {
 		display: flex;
 		align-items: center;
@@ -395,6 +445,25 @@
 	.comment-main-foot {
 		display: flex;
 		font-size: 22rpx;
+	}
+
+	.replayTag {
+		color: #909399;
+		margin-bottom: 5px;
+		border: 1px solid #c8c9cc;
+		background-color: #f4f4f5;
+		border-radius: 3px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 16rpx;
+		padding: 5px 10px;
+	}
+
+	.replyTagClose {
+		font-size: 20px;
+		line-height: 12px;
+		padding: 0 0 2px 5px;
 	}
 
 	.foot-btn {
@@ -458,7 +527,7 @@
 	.comment-submit {
 		padding: 5rpx 20rpx 0 20rpx;
 		border-bottom: 1px dashed #ddd;
-		width: 100%;
+		width: calc(100% - 40rpx);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;

@@ -1,6 +1,6 @@
-## 接口使用，包括点赞回复评论删除逻辑，建议参考示例项目进行二次封装。
+## 接口使用，包括点赞回复评论删除逻辑，建议参考示例项目进行二次封装；
 
-## 本插件依赖uView，如果环境没有uView，请把其中用到的地方替换成普通组件，包括头像，图标，展开等。
+## 本插件设计之初就是为小型项目设计，不支持分页，评论只有两级。如需改为多级或者需要支持分页，需要进行相当程度的改造。
 
 直接使用
 
@@ -15,15 +15,15 @@
 {
 	"readNumer": 193,
 	"commentList": [{
-			"id": 1,
-			"owner": false,
-			"hasLike": false,
-			"likeNum": 2,
-			"avatarUrl": "https://inews.gtimg.com/newsapp_ls/0/13797755537/0",
-			"nickName": "超长昵称超长...",
-			"content": "啦啦啦啦",
-			"parentId": null,
-			"createTime": "2021-07-02 16:32:07"
+			"id": 1, // 唯一主键
+			"owner": false, // 是否是拥有者，为true则可以删除，管理员全部为true
+			"hasLike": false, // 是否点赞
+			"likeNum": 2, // 点赞数量
+			"avatarUrl": "https://inews.gtimg.com/newsapp_ls/0/13797755537/0", // 评论者头像地址
+			"nickName": "超长昵称超长...", // 评论者昵称，昵称过长请在后端截断
+			"content": "啦啦啦啦", // 评论内容
+			"parentId": null, // 所属评论的唯一主键
+			"createTime": "2021-07-02 16:32:07" // 创建时间
 		},
 		{
 			"id": 2,
@@ -259,5 +259,3 @@ def get_article_comment(articleId, userId):
     }
     return CS.ResultMap(result)
 ```
-
-

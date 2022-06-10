@@ -1,7 +1,7 @@
 {
   "id": "hb-comment",
   "displayName": "评论列表，回复，点赞，删除，留言板",
-  "version": "1.1.4",
+  "version": "1.2.2",
   "description": "评论列表，回复，点赞，删除，留言板",
   "keywords": [
     "评论列表",
@@ -58,7 +58,7 @@
         },
         "H5-pc": {
           "Chrome": "y",
-          "IE": "n",
+          "IE": "y",
           "Edge": "y",
           "Firefox": "y",
           "Safari": "y"
@@ -73,6 +73,10 @@
         "快应用": {
           "华为": "y",
           "联盟": "y"
+        },
+        "Vue": {
+            "vue2": "y",
+            "vue3": "y"
         }
       }
     }
